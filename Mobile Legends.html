@@ -363,26 +363,53 @@
     </div>
 
     <script>
-    document.querySelector('.whatsapp-button').addEventListener('click', function () {
-        if (selectedItems.length === 0) {
-            alert('Belum ada item yang dipilih!');
-            return;
-        }
-
-        let message = `Saya mau beli ${selectedItems.length} item:\n\n`;
-
-        selectedItems.forEach((item, index) => {
-            message += `${index + 1}. ${item.name} - Rp${item.price.toLocaleString()}\n`;
+        // Back button functionality
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Navigate back to homepage
         });
-
-        message += `\nTotal: Rp${totalPrice.toLocaleString()}`;
-
-        const encodedMessage = encodeURIComponent(message);
-        const phoneNumber = '6281226672073'; // Ganti dengan kode negara
-        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
-        window.open(whatsappURL, '_blank');
-    });
-</script
+        
+        // Diamond selection functionality
+        const diamondItems = document.querySelectorAll('.diamond-item, .weekly-pass');
+        let selectedItems = [];
+        let totalPrice = 0;
+        
+        diamondItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                const price = parseInt(this.getAttribute('data-price'));
+                
+                if (this.classList.contains('selected')) {
+                    // Remove from selection
+                    this.classList.remove('selected');
+                    
+                    // Update selected items and total
+                    const index = selectedItems.findIndex(i => i.amount === amount);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                        totalPrice -= price;
+                    }
+                } else {
+                    // Add to selection
+                    this.classList.add('selected');
+                    selectedItems.push({ amount, price });
+                    totalPrice += price;
+                }
+                
+                // Update total display
+                document.getElementById('total-price').textContent = `Total: ${totalPrice.toLocaleString()}`;
+            });
+        });
+        
+        // Confirm button functionality
+        document.querySelector('.confirm-button').addEventListener('click', function() {
+            if (selectedItems.length === 0) {
+                alert('Lu belum masukin item yang mau lu beli ler peler!!');
+                return;
+            }
+            
+            // In a real app, this would process the order
+            alert(`Confirming purchase of ${selectedItems.length} item(s) for ${totalPrice.toLocaleString()}`);
+        });
+    </script>
 </body>
 </html>
