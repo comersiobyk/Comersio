@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comersio - Diamond Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #1a3b64, #0a1b30);
+            color: white;
+            background-image: repeating-linear-gradient(transparent, transparent 2px, rgba(0, 100, 200, 0.1) 2px, rgba(0, 100, 200, 0.1) 4px);
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .header, .footer {
+            background: linear-gradient(to right, #0c4da2, #156bb7);
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before, .header::after,
+        .footer::before, .footer::after {
+            content: '';
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .header::before, .footer::before {
+            left: 10px;
+        }
+        
+        .header::after, .footer::after {
+            right: 10px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+        }
+        
+        .main-content {
+            padding: 20px 0;
+        }
+        
+        .promo-banner {
+            background: #1a3b64;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px dotted rgba(255, 255, 255, 0.3);
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.3);
+        }
+        
+        .promo-banner h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .promo-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .diamond-section {
+            padding: 15px;
+            background: #1a3b64;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-top: 2px dotted rgba(255, 255, 255, 0.3);
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.3);
+        }
+        
+        .diamond-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .diamond-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .diamond-item {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            border-radius: 30px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            width: 48%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .diamond-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .diamond-item.selected {
+            background: linear-gradient(to right, #156bb7, #2a7fd0);
+            box-shadow: 0 0 10px #4a9bff;
+        }
+        
+        .diamond-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .diamond-info {
+            text-align: left;
+        }
+        
+        .diamond-amount {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .diamond-price {
+            font-size: 1.1rem;
+        }
+        
+        .weekly-pass {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            border-radius: 30px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .weekly-pass:hover {
+            background: linear-gradient(to right, #156bb7, #2a7fd0);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .checkout-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .total-price {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .confirm-button {
+            background: linear-gradient(to right, #00b894, #00a67c);
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .confirm-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-button {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .back-button::before {
+            content: '←';
+            margin-right: 5px;
+        }
+        
+        .contact {
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">Comersio</div>
+            <div class="tagline">Your Digital Product shopping solution.</div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <button class="back-button" id="back-button">Back to Home</button>
+            
+            <div class="promo-banner">
+                <img src="diamond-icon.png" class="promo-icon" alt="Diamond">
+                <h2>Diskon Weekly Diamond Pass</h2>
+                <p>30.500 to 27.000</p>
+            </div>
+            
+            <div class="diamond-section">
+                <h3 class="diamond-title">Diamond & Membership</h3>
+                
+                <div class="diamond-grid">
+                    <div class="diamond-item" data-amount="14" data-price="4500">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">14 Diamond</div>
+                            <div class="diamond-price">4.500</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="71" data-price="21000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">71 Diamond</div>
+                            <div class="diamond-price">21.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="148" data-price="44000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">148 Diamond</div>
+                            <div class="diamond-price">44.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="18" data-price="5800">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">18 Diamond</div>
+                            <div class="diamond-price">5.800</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="85" data-price="25000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">85 Diamond</div>
+                            <div class="diamond-price">25.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="170" data-price="50000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">170 Diamond</div>
+                            <div class="diamond-price">50.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="46" data-price="14000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">46 Diamond</div>
+                            <div class="diamond-price">14.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="88" data-price="27000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">88 Diamond</div>
+                            <div class="diamond-price">27.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="222" data-price="52000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">222 Diamond</div>
+                            <div class="diamond-price">52.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="54" data-price="15500">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">54 Diamond</div>
+                            <div class="diamond-price">15.500</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="110" data-price="35000">
+                        <img src="diamond-icon.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">110 Diamond</div>
+                            <div class="diamond-price">35.000</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="weekly-pass" data-amount="Weekly Pass" data-price="27000">
+                    <img src="weekly-pass-icon.png" class="diamond-icon" alt="Weekly Pass">
+                    <div class="diamond-info">
+                        <div class="diamond-amount">Weekly Diamond Pass</div>
+                        <div class="diamond-price">27.000</div>
+                    </div>
+                </div>
+                
+                <div class="checkout-section">
+                    <div class="total-price" id="total-price">Total: 0</div>
+                    <button class="confirm-button">Konfirmasi</button>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">Comersio</div>
+            <div class="tagline">Your Digital Product shopping solution.</div>
+            <div class="contact">
+                <p>Jl. Priok, Jakarta Utara, DKI Jakarta</p>
+                <p>0812-2667-2073</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Back button functionality
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Navigate back to homepage
+        });
+        
+        // Diamond selection functionality
+        const diamondItems = document.querySelectorAll('.diamond-item, .weekly-pass');
+        let selectedItems = [];
+        let totalPrice = 0;
+        
+        diamondItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                const price = parseInt(this.getAttribute('data-price'));
+                
+                if (this.classList.contains('selected')) {
+                    // Remove from selection
+                    this.classList.remove('selected');
+                    
+                    // Update selected items and total
+                    const index = selectedItems.findIndex(i => i.amount === amount);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                        totalPrice -= price;
+                    }
+                } else {
+                    // Add to selection
+                    this.classList.add('selected');
+                    selectedItems.push({ amount, price });
+                    totalPrice += price;
+                }
+                
+                // Update total display
+                document.getElementById('total-price').textContent = `Total: ${totalPrice.toLocaleString()}`;
+            });
+        });
+        
+        // Confirm button functionality
+        document.querySelector('.confirm-button').addEventListener('click', function() {
+            if (selectedItems.length === 0) {
+                alert('Lu belum masukin item yang mau lu beli ler peler!!');
+                return;
+            }
+            
+            // In a real app, this would process the order
+            alert(`Confirming purchase of ${selectedItems.length} item(s) for ${totalPrice.toLocaleString()}`);
+        });
+    </script>
+</body>
+</html>
