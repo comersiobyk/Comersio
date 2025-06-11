@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comersio - Diamond Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #1a3b64, #0a1b30);
+            color: white;
+            background-image: repeating-linear-gradient(transparent, transparent 2px, rgba(0, 100, 200, 0.1) 2px, rgba(0, 100, 200, 0.1) 4px);
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .header, .footer {
+            background: linear-gradient(to right, #0c4da2, #156bb7);
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before, .header::after,
+        .footer::before, .footer::after {
+            content: '';
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .header::before, .footer::before {
+            left: 10px;
+        }
+        
+        .header::after, .footer::after {
+            right: 10px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+        }
+        
+        .main-content {
+            padding: 20px 0;
+        }
+        
+        .promo-banner {
+            background: #1a3b64;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px dotted rgba(255, 255, 255, 0.3);
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.3);
+        }
+        
+        .promo-banner h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .promo-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .diamond-section {
+            padding: 15px;
+            background: #1a3b64;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-top: 2px dotted rgba(255, 255, 255, 0.3);
+            border-bottom: 2px dotted rgba(255, 255, 255, 0.3);
+        }
+        
+        .diamond-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .diamond-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .diamond-item {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            border-radius: 30px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            width: 48%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .diamond-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .diamond-item.selected {
+            background: linear-gradient(to right, #156bb7, #2a7fd0);
+            box-shadow: 0 0 10px #4a9bff;
+        }
+        
+        .diamond-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .diamond-info {
+            text-align: left;
+        }
+        
+        .diamond-amount {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .diamond-price {
+            font-size: 1.1rem;
+        }
+        
+        .weekly-pass {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            border-radius: 30px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .weekly-pass:hover {
+            background: linear-gradient(to right, #156bb7, #2a7fd0);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 10px;
+        }
+        
+        .total-box {
+            background-color: #17497d;
+            border-radius: 25px;
+            padding: 15px 30px;
+            text-align: center;
+            border: 2px solid #3a6ea5;
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .confirm-button {
+            background-color: #00b050;
+            border-radius: 25px;
+            padding: 15px 30px;
+            text-align: center;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            flex: 1;
+            border: 2px solid #008d40;
+        }
+        
+        .confirm-button:hover {
+            background-color: #00a040;
+        }
+        
+        .back-button {
+            background: linear-gradient(to right, #0e3c7e, #1b5cb3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .back-button::before {
+            content: '←';
+            margin-right: 5px;
+        }
+        
+        .contact {
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+                /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .modal-content {
+            background-color: #17497d;
+            margin: 15% auto;
+            padding: 20px;
+            border: 2px solid #3a6ea5;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #aaa;
+        }
+        
+        .modal-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #0c3a6d;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">Comersio</div>
+            <div class="tagline">Your Digital Product shopping solution.</div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <button class="back-button" id="back-button">Back to Home</button>
+            
+            <div class="promo-banner">
+                <img src="weekly-pass-icon.png" class="promo-icon" alt="Diamond">
+                <h2>Diskon Weekly Diamond Pass</h2>
+                <p>30.500 to 27.000</p>
+            </div>
+            
+                <div class="diamond-grid">
+                    <div class="diamond-item" data-amount="70" data-price="11000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">70 Diamond</div>
+                            <div class="diamond-price">11.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="140" data-price="21000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">140 Diamond</div>
+                            <div class="diamond-price">21.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="150" data-price="23000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">150 Diamond</div>
+                            <div class="diamond-price">23.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="210" data-price="32000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">210 Diamond</div>
+                            <div class="diamond-price">32.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="280" data-price="43000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">280 Diamond</div>
+                            <div class="diamond-price">43.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="diamond-item" data-amount="355" data-price="52000">
+                        <img src="Diamond FF.png" class="diamond-icon" alt="Diamond">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">355 Diamond</div>
+                            <div class="diamond-price">52.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="weekly-pass" data-amount="Weekly Pass" data-price="30000">
+                        <img src="Membership 1.png" class="diamond-icon" alt="Weekly Pass">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">Weekly Pass</div>
+                            <div class="diamond-price">30.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="weekly-pass" data-amount="Monthly Pass" data-price="86000">
+                        <img src="Membership 2.png" class="diamond-icon" alt="Monthly Pass">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">Monthly Pass</div>
+                            <div class="diamond-price">86.000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="weekly-pass" data-amount="Level Up Pass" data-price="17000">
+                        <img src="Level Up.png" class="diamond-icon" alt="Level Up Pass">
+                        <div class="diamond-info">
+                            <div class="diamond-amount">Level Up Pass</div>
+                            <div class="diamond-price">17.000</div>
+                        </div>
+                    </div>          
+                
+                <div class="weekly-pass" data-amount="BP Card" data-price="47000">
+                    <img src="BP.png" class="diamond-icon" alt="BP Card">
+                    <div class="diamond-info">
+                        <div class="diamond-amount">BP Card</div>
+                        <div class="diamond-price">47.000</div>
+                    </div>
+                </div>
+                
+    <div class="total-section">
+        <div class="total-box">
+            <div>Total</div>
+            <div id="total-amount">0</div>
+        </div>
+        <button class="confirm-button" id="confirm-button">Konfirmasi</button>
+    </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">Comersio</div>
+            <div class="tagline">Your Digital Product shopping solution.</div>
+            <div class="contact">
+                <p>Jl. Priok, Jakarta Utara, DKI Jakarta</p>
+                <p>0812-2667-2073</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Item yang dipilih</h2>
+            <div id="selected-items"></div>
+            <button class="confirm-button" id="modal-confirm">Konfirmasi</button>
+        </div>
+    </div>
+    
+    <script>
+        // Variables to track selected items
+        const selectedItems = [];
+        let totalAmount = 0;
+        
+        // DOM Elements
+        const diamondItems = document.querySelectorAll('.diamond-item, .weekly-pass');
+        const totalAmountElement = document.getElementById('total-amount');
+        const confirmButton = document.getElementById('confirm-button');
+        const modal = document.getElementById('itemModal');
+        const closeModal = document.querySelector('.close');
+        const selectedItemsContainer = document.getElementById('selected-items');
+        const modalConfirm = document.getElementById('modal-confirm');
+        
+        // Add click event to diamond items
+        diamondItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const amount = item.getAttribute('data-amount');
+                const price = item.getAttribute('data-price');
+                
+                // Check if item is already selected
+                const existingIndex = selectedItems.findIndex(selected => 
+                    selected.amount === amount && selected.price === price
+                );
+                
+                if (existingIndex !== -1) {
+                    // Remove item if already selected
+                    selectedItems.splice(existingIndex, 1);
+                    item.classList.remove('selected');
+                } else {
+                    // Add item if not selected
+                    selectedItems.push({ amount, price });
+                    item.classList.add('selected');
+                }
+                
+                // Update total
+                calculateTotal();
+            });
+        });
+        
+        // Calculate total amount
+        function calculateTotal() {
+            totalAmount = selectedItems.reduce((sum, item) => {
+                return sum + parseFloat(item.price.replace(/\./g, ''));
+            }, 0);
+            
+            // Format number with dots
+            totalAmountElement.textContent = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        
+        // Show modal with selected items
+        confirmButton.addEventListener('click', () => {
+            // Clear previous items
+            selectedItemsContainer.innerHTML = '';
+            
+            // Add selected items to modal
+            if (selectedItems.length === 0) {
+                selectedItemsContainer.innerHTML = '<p>No items selected</p>';
+            } else {
+                selectedItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('modal-item');
+                    
+                    let itemText = '';
+                    if (item.amount === 'Weekly Pass') {
+                        itemText = `Weekly Diamond Pass`;
+                    } else {
+                        itemText = `${item.amount} Diamond`;
+                    }
+                    
+                    itemElement.innerHTML = `
+                        <div>${itemText}</div>
+                        <div>${item.price}</div>
+                    `;
+                    
+                    selectedItemsContainer.appendChild(itemElement);
+                });
+            }
+            
+            // Show modal
+            modal.style.display = 'block';
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Send to WhatsApp
+        modalConfirm.addEventListener('click', () => {
+            if (selectedItems.length === 0) {
+                alert('Please select at least one item');
+                return;
+            }
+            
+            // Prepare WhatsApp message
+            let message = 'Saya ingin membeli:%0A';
+            
+            selectedItems.forEach(item => {
+                if (item.amount === 'Weekly Pass') {
+                    message += `- Weekly Diamond Pass: ${item.price}%0A`;
+                } else {
+                    message += `- ${item.amount} Diamond: ${item.price}%0A`;
+                }
+            });
+            
+            message += `%0ATotal: ${totalAmountElement.textContent}`;
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/6281226672073?text=${message}`, '_blank');
+        });
+    </script>
+</body>
+</html>
